@@ -5,6 +5,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/api/customers", customers);
+
 app.get("/", function(req, res) {
   var sql = require("mssql");
 
