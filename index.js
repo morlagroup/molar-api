@@ -11,18 +11,19 @@ app.get("/", function(req, res) {
 
   // config for your database
   var config = {
-    user: "sa",
-    password: "mypassword",
-    server: "localhost",
-    database: "SchoolDB"
+    user: "molarApp",
+    password: "molar",
+    server: "TEMMIX",
+    database: "AdventureWorks2014" 
   };
 
   // connect to your database
+  sql.close();
   sql.connect(config, function(err) {
     if (err) console.log(err);
     var request = new sql.Request();
-    request.query("select * from Student", function(err, recordset) {
-      if (err) console.log(err);
+    request.query("Select top 100 * FROM [AdventureWorks2014].[Person].[Person]", function(err, recordset) {
+      if (err) console.log("Not able to connect to the local database");
       res.send(recordset);
     });
   });
