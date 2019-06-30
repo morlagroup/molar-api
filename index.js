@@ -1,32 +1,18 @@
 const Joi = require("joi");
-const customers = require("./routes/customers");
+//const customers = require("./routes/customers");
 const express = require("express");
 const app = express();
+const port = process.env.port || 5005;
+const productController = require("./Controller/ProductController")();
 
-app.use(express.json());
-app.use("/api/customers", customers);
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use("/api/products", productController);
 
-app.get("/", function(req, res) {
-  var sql = require("mssql");
-
-  // config for your database
-  var config = {
-    user: "sa",
-    password: "mypassword",
-    server: "localhost",
-    database: "SchoolDB"
-  };
-
-  // connect to your database
-  sql.connect(config, function(err) {
-    if (err) console.log(err);
-    var request = new sql.Request();
-    request.query("select * from Student", function(err, recordset) {
-      if (err) console.log(err);
-      res.send(recordset);
-    });
-  });
+app.listen(port, function() {
+  var datetime = new Date();
+  var message =
+    "Server runnning on Port: - " + port + " Started at :- " + datetime;
+  console.log(message);
 });
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
