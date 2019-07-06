@@ -4,7 +4,7 @@ var sql = require("mssql");
 var conn = require("../connection/connect")();
 
 var routes = function() {
-  router.route("/").get(function(req, res) {
+  router.route("/").get((req, res) => {
     conn
       .connect()
       .then(function() {

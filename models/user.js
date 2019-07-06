@@ -2,13 +2,12 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 
-function generateAuthToken({ id, isAdmin, firstName, lastName, email }) {
+function generateAuthToken({ id, isAdmin, username, email }) {
   const token = jwt.sign(
     {
       _id: id,
       isAdmin: isAdmin,
-      firstName: firstName,
-      lastName: lastName,
+      username: username,
       email: email
     },
     config("jwtMorlaPrivateKey")
@@ -18,20 +17,16 @@ function generateAuthToken({ id, isAdmin, firstName, lastName, email }) {
 
 function validateUser(user) {
   const schema = {
-    firstName: Joi.string()
-      .min(5)
-      .max(50)
-      .required(),
-    lastName: Joi.string()
-      .min(5)
-      .max(50)
-      .required(),
     email: Joi.string()
       .min(5)
       .max(255)
       .required()
       .email(),
     password: Joi.string()
+      .min(5)
+      .max(255)
+      .required(),
+    isAdmin: Joi.string()
       .min(5)
       .max(255)
       .required()
